@@ -30,4 +30,5 @@ void Sprite::draw(double halfwidth, double halfheight, int frame) {
 		glTexCoord2d(u1, 1); glVertex2d( halfwidth,  halfheight);
 		glTexCoord2d(u1, 0); glVertex2d( halfwidth, -halfheight);
 	glEnd();
+	glDisable(GL_TEXTURE_2D);
 }

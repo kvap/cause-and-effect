@@ -8,11 +8,13 @@
 #include "GameScene.h"
 
 #include "GameObjects/Box.h"
+#include "GameObjects/Character.h"
 
 #include "graphics/Graphics.hpp"
 #include "graphics/Camera.hpp"
 #include "graphics/Textures.hpp"
 #include "graphics/Fonts.hpp"
+#include "graphics/Sprite.hpp"
 #include "util/Logger.hpp"
 #include "util/convert.hpp"
 
@@ -49,12 +51,15 @@ int main(int argc, char** argv)
 	gameTime.totalGameTime = 0.0;
 	double startGameTime = glfwGetTime();
 
-	Box b1(Point(23, 110), Point(1, 1.5)), b2(Point(10, 50), Point(100, 10));
+	Character b1(Point(23, 110), Point(1, 1.5));
+	Box b2(Point(10, 50), Point(100, 10));
 	GameScene gs(1);
 	gs.layers[0]->add(&b1, Physics::DYNAMIC);
 	gs.layers[0]->add(&b2, Physics::STATIC);
 
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 20);
+	Sprite tux("tux.png", 3);
+	int tuxframe = 0;
 
 	double physicsTime = 0.0;
 	while (!glfwWindowShouldClose(window))
@@ -69,25 +74,16 @@ int main(int argc, char** argv)
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		c.setPos(b1.getPosition());
-		c.apply_viewport();
-		int wid, hei;
-		glEnable(GL_TEXTURE_2D);
-		int tex = loadTexture("tux.png", &wid, &hei);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glBindTexture(GL_TEXTURE_2D, tex);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0); glVertex2f(0, 0);
-		glTexCoord2f(0, 1); glVertex2f(0, hei);
-		glTexCoord2f(1, 1); glVertex2f(wid, hei);
-		glTexCoord2f(1, 0); glVertex2f(wid, 0);
-		glEnd();
 
 		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
 
 		// update & draw scenes here.
 		c.apply();
 		gs.draw(&gameTime);
+		glPushMatrix();
+		glTranslatef(23, 110, 0);
+		tux.draw(20, 20, tuxframe++);
+		glPopMatrix();
 		gs.update(&gameTime);
 		while (physicsTime >= 1.0f/60.0f) {
 			gs.updatePhysics();

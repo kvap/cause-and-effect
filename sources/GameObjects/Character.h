@@ -3,6 +3,7 @@
 
 #include "../Point.h"
 #include "../GameObject.h"
+#include "../graphics/Sprite.hpp"
 
 class Character : public GameObject
 {
@@ -10,6 +11,9 @@ public:
     Character(Point position, Point size);
     ~Character();
 private:
+    Sprite *sprite;
+    int frame; // 0-3 - running, 4-6 - idle
+    bool look_right;
 
 protected:
 
