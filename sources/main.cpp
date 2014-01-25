@@ -88,6 +88,7 @@ int main(int argc, char** argv)
             gs.updatePhysics();
             physicsTime -= 1.0f/60.0f;
         }
+        Keyboard::update();
 
 	int wid, hei;
 	glEnable(GL_TEXTURE_2D);
