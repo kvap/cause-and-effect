@@ -31,19 +31,4 @@ void Box::draw(const GameTime* gameTime)
 
 void Box::update(const GameTime* gameTime)
 {
-    if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
-    {
-		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 65));
-	}
-	if (Keyboard::keyIsPressed(GLFW_KEY_D))
-	{
-		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(50, velocity.y));
-	}
-	if (Keyboard::keyIsPressed(GLFW_KEY_A))
-	{
-		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-50, velocity.y));
-	}
 }
