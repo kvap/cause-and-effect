@@ -79,6 +79,7 @@ int main(int argc, char** argv)
             gs.updatePhysics();
             physicsTime -= 1.0f/60.0f;
         }
+        Keyboard::update();
 
         glfwSwapBuffers(window);
         glfwPollEvents();
