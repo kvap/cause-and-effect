@@ -10,11 +10,11 @@ void Keyboard::keyCallback(GLFWwindow* window, int key, int scancode, int action
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-    if (action == GLFW_PRESS) {
-        printf("key callback: %d -> press\n", key);
-    } else {
-        printf("key callback: %d -> repeat\n", key);
-    }
+//    if (action == GLFW_PRESS) {
+//        printf("key callback: %d -> press\n", key);
+//    } else {
+//        printf("key callback: %d -> repeat\n", key);
+//    }
     if (key >= 0)
         keys[key] = action;
 }
