@@ -4,7 +4,7 @@ using namespace std;
 
 SceneLayer::SceneLayer()
 {
-    this->gravity = new b2Vec2(0.0f, 80.0f);
+    this->gravity = new b2Vec2(0.0f, -9.8f);
     this->physicsWorld = new b2World(*this->gravity);
 }
 
