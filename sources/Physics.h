@@ -31,6 +31,7 @@ public:
 
     Point getPosition();
     float32 getAngle();
+	b2Body* getBody();
 };
 
 #endif // PHYSICS_H

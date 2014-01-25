@@ -20,7 +20,7 @@ int screen_width, screen_height;
 
 void errorCallback(int error, const char* description)
 {
-    fprintf(stderr, "GLFW Error(%d): %s\n", error, description);
+	fprintf(stderr, "GLFW Error(%d): %s\n", error, description);
 }
 
 int main(int argc, char** argv)
@@ -34,12 +34,13 @@ int main(int argc, char** argv)
 	int glfw_version[3];
 	glfwGetVersion(&glfw_version[0], &glfw_version[1], &glfw_version[2]);
 	LOG_STRING("GLFW version "
-			+ stringify<int>(glfw_version[0]) + "."
-			+ stringify<int>(glfw_version[1]) + "."
-			+ stringify<int>(glfw_version[2]) + " initialized"
-		  );
+		+ stringify<int>(glfw_version[0]) + "."
+		+ stringify<int>(glfw_version[1]) + "."
+		+ stringify<int>(glfw_version[2]) + " initialized"
+	  );
 
 	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
+	glfwSetKeyCallback(window, Keyboard::keyCallback);
 	initTextures();
 
 	Font *f = Fonts::genFont("DroidSans.ttf", 20);
@@ -48,12 +49,12 @@ int main(int argc, char** argv)
 	gameTime.totalGameTime = 0.0;
 	double startGameTime = glfwGetTime();
 
-	Box b1(Point(23, 10), Point(10, 10)), b2(Point(10, 50), Point(100, 10));
+	Box b1(Point(23, 110), Point(1, 1.5)), b2(Point(10, 50), Point(100, 10));
 	GameScene gs(1);
 	gs.layers[0]->add(&b1, Physics::DYNAMIC);
 	gs.layers[0]->add(&b2, Physics::STATIC);
 
-	Camera c(Point(0, 0), Point(10, 10), Point(1300, 600), 2);
+	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 20);
 
 	double physicsTime = 0.0;
 	while (!glfwWindowShouldClose(window))
@@ -64,19 +65,10 @@ int main(int argc, char** argv)
 
 		physicsTime += gameTime.elapsedGameTime;
 
-		c.apply();
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		// update & draw scenes here.
-		gs.draw(&gameTime);
-		gs.update(&gameTime);
-		while (physicsTime >= 1.0f/60.0f) {
-			gs.updatePhysics();
-			physicsTime -= 1.0f/60.0f;
-		}
-		Keyboard::update();
-
+		c.setPos(b1.getPosition());
 		c.apply_viewport();
 		int wid, hei;
 		glEnable(GL_TEXTURE_2D);
@@ -92,6 +84,17 @@ int main(int argc, char** argv)
 		glEnd();
 
 		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
+
+		// update & draw scenes here.
+		c.apply();
+		gs.draw(&gameTime);
+		gs.update(&gameTime);
+		while (physicsTime >= 1.0f/60.0f) {
+			gs.updatePhysics();
+			physicsTime -= 1.0f/60.0f;
+		}
+		Keyboard::update();
+
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();

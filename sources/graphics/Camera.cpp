@@ -34,8 +34,8 @@ void Camera::apply() {
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	glTranslated(pos.x, pos.y, 0);
 	glScaled(zoom, zoom, 0);
+	glTranslated(-pos.x, -pos.y, 0);
 }
 
 // set only viewport transformations (for UI)

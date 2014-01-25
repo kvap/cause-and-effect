@@ -4,7 +4,7 @@ using namespace std;
 
 SceneLayer::SceneLayer()
 {
-    this->gravity = new b2Vec2(0.0f, 80.0f);
+    this->gravity = new b2Vec2(0.0f, -9.8f);
     this->physicsWorld = new b2World(*this->gravity);
 }
 
@@ -18,6 +18,7 @@ void SceneLayer::add(GameObject* gameObject, Physics::Type type)
 {
     Physics* physics = new Physics(gameObject, type);
     physics->attach(this->physicsWorld);
+	gameObject->setPhysics(physics);
 
     this->gameObjects.push_back(gameObject);
     this->gameObjectPhysics.push_back(physics);
