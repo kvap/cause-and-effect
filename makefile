@@ -2,6 +2,7 @@ CC = g++
 CFLAGS = -g -c `pkg-config --cflags freetype2 glew`
 LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2 `pkg-config --libs freetype2 glew`
 
+BUILD_DIR = bin
 SOURCE_DIR = sources
 OBJECT_DIR = objects
 
@@ -11,19 +12,20 @@ OBJECT_DIRS = $(patsubst $(SOURCE_DIR)%, $(OBJECT_DIR)%, $(SOURCE_DIRS))
 SOURCE_FILES = $(filter %.cpp, $(wildcard $(addsuffix *.cpp, $(SOURCE_DIRS))))
 OBJECTS = $(patsubst $(SOURCE_DIR)/%.cpp, $(OBJECT_DIR)/%.o, $(SOURCE_FILES))
 
-TARGET = ce
+TARGET = $(BUILD_DIR)/ce
 
 .PHONY: build rebuild clean
 
 build: $(TARGET)
+	@cp -r res/* $(BUILD_DIR)/
 	@echo $(TARGET) successfully built!
 
 rebuild: clean build
 
-$(TARGET): $(OBJECT_DIRS) $(OBJECTS)
+$(TARGET): $(OBJECT_DIRS) $(BUILD_DIR) $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@ $(LDFLAGS)
 
-$(OBJECT_DIRS):
+$(OBJECT_DIRS) $(BUILD_DIR):
 	@mkdir $@
 
 $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp
@@ -31,4 +33,4 @@ $(OBJECT_DIR)/%.o: $(SOURCE_DIR)/%.cpp
 
 clean:
 	rm -rf $(OBJECT_DIR)
-	rm -f $(TARGET)
+	rm -rf $(BUILD_DIR)
