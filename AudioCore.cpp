@@ -13,6 +13,10 @@ bool InitAudio(){
 	return BASS_Init(-1,48000,NULL,0,NULL);
 }
 
+void FreeAudio(){
+	BASS_Free();
+}
+
 Audio::Audio(char* path){
 	sample=BASS_SampleLoad(false,path,0,0,2,BASS_MUSIC_STOPBACK);
 	Audio::path=path;
@@ -29,5 +33,3 @@ void Audio::Play(){
 	BASS_ChannelPlay(channel,false);
 
 }
-
-

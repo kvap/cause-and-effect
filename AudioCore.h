@@ -4,6 +4,7 @@
 #include "bass.h"// есть под linux
 
 bool InitAudio(); // инициализация аудио
+void FreeAudio(); 
 class Audio{
 public:
 	Audio(char* path); // путь к файлу. В винде с двойными слэшами
