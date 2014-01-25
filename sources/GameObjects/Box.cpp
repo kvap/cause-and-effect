@@ -1,5 +1,9 @@
 #include "Box.h"
+
+#include <stdio.h>
 #include <GLFW/glfw3.h>
+
+#include "../Keyboard.h"
 
 Box::Box(Point position, Point size)
     : GameObject(position, size)
@@ -27,5 +31,6 @@ void Box::draw(const GameTime* gameTime)
 
 void Box::update(const GameTime* gameTime)
 {
-
+    if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
+        printf("alarm!\n");
 }

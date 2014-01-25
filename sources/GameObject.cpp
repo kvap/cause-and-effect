@@ -41,3 +41,14 @@ void GameObject::setSize(Point size)
 {
     this->size = size;
 }
+
+Physics* GameObject::getPhysics()
+{
+    return this->physics;
+}
+
+void GameObject::setPhysics(Physics* p)
+{
+    this->physics = physics;
+}
+

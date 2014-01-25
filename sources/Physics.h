@@ -3,6 +3,8 @@
 
 #include <Box2D/Box2D.h>
 
+class GameObject;
+
 #include "Point.h"
 #include "GameObject.h"
 
