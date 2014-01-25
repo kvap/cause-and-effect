@@ -2,9 +2,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-//#define SCREEN_WIDTH    640
-//#define SCREEN_HEIGHT   480
-
 #include "util/Logger.hpp"
 #include "Keyboard.h"
 #include "GameTime.h"
@@ -12,6 +9,8 @@
 
 #include "GameObjects/Box.h"
 
+#include "graphics/Graphics.hpp"
+#include "graphics/Camera.hpp"
 #include "graphics/Textures.hpp"
 #include "graphics/Fonts.hpp"
 #include "util/Logger.hpp"
@@ -23,75 +22,6 @@ void errorCallback(int error, const char* description)
 {
     fprintf(stderr, "GLFW Error(%d): %s\n", error, description);
 }
-
-void initOpengl(int resx, int resy)
-{
-	initTextures();
-
-	glViewport(0, 0, resx, resy);
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnable(GL_TEXTURE_2D);
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	glOrtho(0.0, resx, 0.0, resy, -1.0, 1.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-}
-
-GLFWwindow *setup_window(int *resx, int *resy, bool vsync, bool fullscreen) {
-	const GLFWvidmode *desktop = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	*resx = desktop->width;
-	*resy = desktop->height;
-
-	glfwWindowHint(GLFW_RED_BITS, desktop->redBits);
-	glfwWindowHint(GLFW_GREEN_BITS, desktop->greenBits);
-	glfwWindowHint(GLFW_BLUE_BITS, desktop->blueBits);
-	glfwWindowHint(GLFW_DEPTH_BITS, 32);
-	glfwWindowHint(GLFW_STENCIL_BITS, 0);
-
-	GLFWwindow *window = glfwCreateWindow(
-		*resx, *resy,
-		"Cause and Effect",
-		fullscreen ? glfwGetPrimaryMonitor() : NULL,
-		NULL
-	);
-	if (window) {
-		LOG_STRING("Window opened");
-	} else {
-		LOG_FATAL("Could not create the window");
-	}
-
-	glfwMakeContextCurrent(window);
-	LOG_STRING(std::string("OpenGL version: ") + (char*)glGetString(GL_VERSION));
-	LOG_STRING(std::string("GLSL version: ") + (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-	int glew_status = glewInit();
-	if (glew_status == GLEW_OK) {
-		LOG_STRING(std::string("GLEW version: ") + (char*)glewGetString(GLEW_VERSION));
-	} else {
-		LOG_FATAL(std::string("GLEW init failed: ") + (char*)glewGetErrorString(glew_status));
-	}
-
-	int depth_bits;
-	glGetIntegerv(GL_DEPTH_BITS, &depth_bits);
-	LOG_STRING(std::string("Depth buffer bits = ") + stringify<int>(depth_bits));
-
-	if (vsync) {
-		glfwSwapInterval(1);
-		LOG_STRING("vsync enabled");
-	} else {
-		glfwSwapInterval(0);
-		LOG_STRING("vsync disabled");
-	}
-
-	return window;
-}
-
 
 int main(int argc, char** argv)
 {
@@ -110,8 +40,7 @@ int main(int argc, char** argv)
 		  );
 
 	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
-
-	initOpengl(screen_width, screen_height);
+	initTextures();
 
 	Font *f = Fonts::genFont("DroidSans.ttf", 20);
 
@@ -124,6 +53,8 @@ int main(int argc, char** argv)
 	gs.layers[0]->add(&b1, Physics::DYNAMIC);
 	gs.layers[0]->add(&b2, Physics::STATIC);
 
+	Camera c(Point(0, 0), Point(10, 10), Point(1300, 600), 2);
+
 	double physicsTime = 0.0;
 	while (!glfwWindowShouldClose(window))
 	{
@@ -133,6 +64,7 @@ int main(int argc, char** argv)
 
 		physicsTime += gameTime.elapsedGameTime;
 
+		c.apply();
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -145,6 +77,7 @@ int main(int argc, char** argv)
 		}
 		Keyboard::update();
 
+		c.apply_viewport();
 		int wid, hei;
 		glEnable(GL_TEXTURE_2D);
 		int tex = loadTexture("tux.png", &wid, &hei);
