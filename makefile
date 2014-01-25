@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -c
+CFLAGS = -c -g
 LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2
 
 SOURCE_DIR = sources

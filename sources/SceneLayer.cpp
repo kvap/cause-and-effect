@@ -18,6 +18,7 @@ void SceneLayer::add(GameObject* gameObject, Physics::Type type)
 {
     Physics* physics = new Physics(gameObject, type);
     physics->attach(this->physicsWorld);
+	gameObject->setPhysics(physics);
 
     this->gameObjects.push_back(gameObject);
     this->gameObjectPhysics.push_back(physics);

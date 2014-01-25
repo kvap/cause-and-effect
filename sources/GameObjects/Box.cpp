@@ -20,10 +20,10 @@ void Box::draw(const GameTime* gameTime)
     glBegin(GL_QUADS);
     {
         glColor3f(1, 1, 1);
-        glVertex2f(this->size.x * 2, this->size.y * 2);
-        glVertex2f(0, this->size.y * 2);
-        glVertex2f(0, 0);
-        glVertex2f(this->size.x * 2, 0);
+        glVertex2f(this->size.x, this->size.y);
+        glVertex2f(-this->size.x, this->size.y);
+        glVertex2f(-this->size.x, -this->size.y);
+        glVertex2f(this->size.x, -this->size.y);
     }
     glEnd();
     glPopMatrix();
@@ -32,5 +32,18 @@ void Box::draw(const GameTime* gameTime)
 void Box::update(const GameTime* gameTime)
 {
     if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
-        printf("alarm!\n");
+    {
+		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, -50));
+	}
+	if (Keyboard::keyIsPressed(GLFW_KEY_D))
+	{
+		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(50, velocity.y));
+	}
+	if (Keyboard::keyIsPressed(GLFW_KEY_A))
+	{
+		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-50, velocity.y));
+	}
 }

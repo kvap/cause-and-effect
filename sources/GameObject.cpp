@@ -47,8 +47,9 @@ Physics* GameObject::getPhysics()
     return this->physics;
 }
 
-void GameObject::setPhysics(Physics* p)
+void GameObject::setPhysics(Physics* physics)
 {
     this->physics = physics;
+	this->physics->getBody()->SetFixedRotation(true);
 }
 

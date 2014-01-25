@@ -17,7 +17,7 @@ Physics::Physics(GameObject* gameObject, Physics::Type type)
         this->objectFixtureDef->shape = this->objectPolygonShape;
         this->objectFixtureDef->density = 10.5f;
         this->objectFixtureDef->restitution = 0.0f;
-        this->objectFixtureDef->friction = 0.0f;
+        this->objectFixtureDef->friction = 15.0f;
     }
 }
 
@@ -52,4 +52,9 @@ Point Physics::getPosition()
 float32 Physics::getAngle()
 {
     return this->objectBody->GetAngle();
+}
+
+b2Body* Physics::getBody()
+{
+	return this->objectBody;
 }
