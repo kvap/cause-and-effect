@@ -1,6 +1,6 @@
 CC = g++
-CFLAGS = -c
-LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2
+CFLAGS = -g -c `pkg-config --cflags freetype2 glew`
+LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2 `pkg-config --libs freetype2 glew`
 
 SOURCE_DIR = sources
 OBJECT_DIR = objects
