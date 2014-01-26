@@ -3,6 +3,7 @@
 
 #include "../Point.h"
 #include "../GameObject.h"
+#include "../Sound.h"
 
 class Character : public GameObject
 {
@@ -10,7 +11,7 @@ public:
     Character(Point position, Point size);
     ~Character();
 private:
-
+	Sound* jumpSound;
 protected:
 
 public:
