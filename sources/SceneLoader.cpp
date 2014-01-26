@@ -132,10 +132,10 @@ GameScene* loadSceneFromFile(std::string filename) {
 
 			position.x = atof(x.c_str());
 			position.y = atof(y.c_str());
-			size.x = atof(wid.c_str());
-			size.y = atof(hei.c_str());
-			position.x += size.x / 2.0f;
-			position.y = -position.y - size.y / 2.0f;
+			size.x = atof(wid.c_str()) / 2.0f;
+			size.y = atof(hei.c_str()) / 2.0f;
+			position.x += size.x;
+			position.y = -position.y - size.y;
 
 			std::string id = rect->get_attribute_value("id");
 			if (id == "player")
