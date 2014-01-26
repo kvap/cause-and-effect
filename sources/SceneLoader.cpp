@@ -6,6 +6,7 @@ typedef std::map<std::string, GameScene*> GameSceneMap;
 GameSceneMap gameScenes;
 
 #include <cstdlib>
+#include "GameObjects/Character.h"
 #include <libxml++/libxml++.h>
 
 #include "util/Logger.hpp"
@@ -131,10 +132,24 @@ GameScene* loadSceneFromFile(std::string filename) {
 
 			position.x = atof(x.c_str());
 			position.y = atof(y.c_str());
-			size.x = atof(wid.c_str());
-			size.y = atof(hei.c_str());
-			Box* box = new Box(position, size);
-			gameScene->layers[0]->add(box, Physics::STATIC);
+			size.x = atof(wid.c_str()) / 2.0f;
+			size.y = atof(hei.c_str()) / 2.0f;
+			position.x += size.x;
+			position.y = -position.y - size.y;
+
+			std::string id = rect->get_attribute_value("id");
+			if (id == "player")
+			{
+				Character* c = new Character(position, size);
+				gameScene->setScenePlayer(c);
+				gameScene->layers[0]->add(c, Physics::DYNAMIC);
+			}
+			else
+			{
+				Box* box = new Box(position, size);
+				gameScene->layers[0]->add(box, Physics::STATIC);
+			}
+
 
 			LOG_STRING("found a rect: " + x + ", " + y + ", " + wid + "x" + hei);
 		} else {

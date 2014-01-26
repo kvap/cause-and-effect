@@ -12,6 +12,16 @@ GameScene::~GameScene()
 {
 }
 
+void GameScene::setScenePlayer(GameObject* scenePlayer)
+{
+	this->scenePlayer = scenePlayer;
+}
+
+GameObject* GameScene::getScenePlayer()
+{
+	return this->scenePlayer;
+}
+
 void GameScene::draw(const GameTime* gameTime)
 {
     for (int i = 0; i < this->layers.size(); ++i)
