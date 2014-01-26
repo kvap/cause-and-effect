@@ -58,8 +58,8 @@ int main(int argc, char** argv)
 	//gs.layers[0]->add(&b1, Physics::DYNAMIC);
 	//gs.layers[0]->add(&b2, Physics::STATIC);
 
-	Camera c1(Point(0, 0), Point(0, screen_height/2), Point(screen_width, screen_height), 20);
-	Camera c2(Point(0, 0), Point(0, 0), Point(screen_width, screen_height/2), 20);
+	Camera c1(Point(0, 0), Point(0, screen_height/2), Point(screen_width, screen_height), 40);
+	Camera c2(Point(0, 0), Point(0, 0), Point(screen_width, screen_height/2), 40);
 	
 	GameScene *scene = loadScene("test.svg");
 	//Character ch(Point(23, 110), Point(1, 1.5));
