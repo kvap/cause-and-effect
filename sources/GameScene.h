@@ -11,11 +11,14 @@ public:
     GameScene(int layerCount);
     ~GameScene();
 private:
-
+	GameObject* scenePlayer;
 protected:
 
 public:
     std::vector<SceneLayer*> layers;
+
+	void setScenePlayer(GameObject* scenePlayer);
+	GameObject* getScenePlayer();
 
     void draw(const GameTime* gameTime);
     void update(const GameTime* gameTime);

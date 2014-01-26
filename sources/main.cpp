@@ -61,8 +61,8 @@ int main(int argc, char** argv)
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 20);
 
 	GameScene *scene = loadScene("test.svg");
-	Character ch(Point(23, 110), Point(1, 1.5));
-	scene->layers[0]->add(&ch, Physics::DYNAMIC);
+	//Character ch(Point(23, 110), Point(1, 1.5));
+	//scene->layers[0]->add(&ch, Physics::DYNAMIC);
 	//LOG_FATAL("hello");
 
 	double physicsTime = 0.0;
@@ -77,7 +77,9 @@ int main(int argc, char** argv)
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		c.setPos(ch.getPosition());
+		if (!scene->getScenePlayer())
+			LOG_FATAL("Scene player not found.")
+		c.setPos(scene->getScenePlayer()->getPosition());
 
 		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
 
