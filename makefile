@@ -1,5 +1,5 @@
 CC = g++
-LIBS = freetype2 glew libxml++-2.6
+LIBS = freetype2 glew libxml++-2.6 #freealut
 CFLAGS = -g -c `pkg-config --cflags $(LIBS)`
 LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2 `pkg-config --libs $(LIBS)`
 
