@@ -27,6 +27,8 @@ void Camera::apply() {
 	int wid = viewport_upper_right.x - viewport_lower_left.x;
 	int hei = viewport_upper_right.y - viewport_lower_left.y;
 	glViewport(viewport_lower_left.x, viewport_lower_left.y, wid, hei);
+	glScissor(viewport_lower_left.x, viewport_lower_left.y, wid, hei);
+	glEnable(GL_SCISSOR_TEST);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();

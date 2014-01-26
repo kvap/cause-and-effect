@@ -23,7 +23,10 @@ void Character::draw(const GameTime* gameTime)
 		glRotatef(180, 0, 1, 0);
 	}
 
+	glPushAttrib(GL_CURRENT_BIT);
+	glColor3f(1, 1, 1);
 	sprite->draw(size.x * 1.2, size.y * 1.2, frame);
+	glPopAttrib();
 	glPopMatrix();
 }
 

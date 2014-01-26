@@ -26,7 +26,6 @@ void Sprite::draw(double halfwidth, double halfheight, int frame) {
 	glBegin(GL_QUADS);
 	double u0 = (double)(frame % frames) / frames;
 	double u1 = (double)((frame + 1) % frames) / frames;
-	glColor3f(1, 1, 1);
 		glTexCoord2d(u0, 0); glVertex2d(-halfwidth, -halfheight);
 		glTexCoord2d(u0, 1); glVertex2d(-halfwidth,  halfheight);
 		glTexCoord2d(u1, 1); glVertex2d( halfwidth,  halfheight);

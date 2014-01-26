@@ -75,9 +75,6 @@ int main(int argc, char** argv)
 
 		physicsTime += gameTime.elapsedGameTime;
 
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
-
 		if (!scene->getScenePlayer())
 			LOG_FATAL("Scene player not found.")
 		c1.setPos(scene->getScenePlayer()->getPosition());
@@ -87,8 +84,14 @@ int main(int argc, char** argv)
 
 		// update & draw scenes here.
 		c1.apply();
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glColor3f(1, 1, 1);
 		scene->draw(&gameTime);
 		c2.apply();
+		glClearColor(1, 1, 1, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+		glColor3f(0, 0, 0);
 		scene->draw(&gameTime);
 		scene->update(&gameTime);
 		while (physicsTime >= 1.0f/60.0f) {
