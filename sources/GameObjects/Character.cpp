@@ -8,6 +8,8 @@
 Character::Character(Point position, Point size)
     : GameObject(position, size)
 {
+	sprite = new Sprite("char.png", 7);
+	look_right = true;
 }
 
 Character::~Character()
@@ -15,36 +17,40 @@ Character::~Character()
 
 void Character::draw(const GameTime* gameTime)
 {
-    glPushMatrix();
-    glTranslatef(this->position.x, this->position.y, 0);
-    glRotatef(this->getAngle(), 0, 0, 1);
-    glBegin(GL_QUADS);
-    {
-        glColor3f(1, 1, 1);
-        glVertex2f(this->size.x, this->size.y);
-        glVertex2f(-this->size.x, this->size.y);
-        glVertex2f(-this->size.x, -this->size.y);
-        glVertex2f(this->size.x, -this->size.y);
-    }
-    glEnd();
-    glPopMatrix();
+	glPushMatrix();
+	glTranslatef(this->position.x, this->position.y, 0);
+	if (!look_right) {
+		glRotatef(180, 0, 1, 0);
+	}
+
+	sprite->draw(size.x, size.y, frame);
+	glPopMatrix();
 }
 
+#define ANIM_SPEED 10
 void Character::update(const GameTime* gameTime)
 {
     if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
     {
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 65));
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 5));
 	}
 	if (Keyboard::keyIsPressed(GLFW_KEY_D))
 	{
+		look_right = true;
+		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(50, velocity.y));
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
 	}
-	if (Keyboard::keyIsPressed(GLFW_KEY_A))
+	else if (Keyboard::keyIsPressed(GLFW_KEY_A))
 	{
+		look_right = false;
+		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-50, velocity.y));
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-5, velocity.y));
+	}
+	else
+	{
+		frame = 4;
 	}
 }
