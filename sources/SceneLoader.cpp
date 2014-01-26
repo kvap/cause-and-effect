@@ -9,6 +9,7 @@ GameSceneMap gameScenes;
 #include "GameObjects/Character.h"
 #include <libxml++/libxml++.h>
 
+#include "GameObjects/Character2.h"
 #include "util/Logger.hpp"
 #include "GameScene.h"
 #include "GameObjects/Box.h"
@@ -141,8 +142,15 @@ GameScene* loadSceneFromFile(std::string filename) {
 			if (id == "char")
 			{
 				Character* c = new Character(position, size);
-				gameScene->setScenePlayer(c);
+				gameScene->setScenePlayer(0, c);
 				gameScene->layers[0]->add(c, Physics::DYNAMIC);
+			}
+			else if (id == "zombie")
+			{
+				Character2* c = new Character2(position, size);
+				gameScene->setScenePlayer(1, c);
+				gameScene->layers[0]->add(c, Physics::DYNAMIC);
+
 			}
 			else
 			{

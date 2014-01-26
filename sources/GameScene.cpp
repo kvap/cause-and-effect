@@ -12,14 +12,14 @@ GameScene::~GameScene()
 {
 }
 
-void GameScene::setScenePlayer(GameObject* scenePlayer)
+void GameScene::setScenePlayer(int id, GameObject* scenePlayer)
 {
-	this->scenePlayer = scenePlayer;
+	this->scenePlayer[id] = scenePlayer;
 }
 
-GameObject* GameScene::getScenePlayer()
+GameObject* GameScene::getScenePlayer(int id)
 {
-	return this->scenePlayer;
+	return this->scenePlayer[id];
 }
 
 void GameScene::draw(const GameTime* gameTime)

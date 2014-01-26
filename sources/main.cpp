@@ -78,10 +78,10 @@ int main(int argc, char** argv)
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		if (!scene->getScenePlayer())
+		if (!scene->getScenePlayer(0) || !scene->getScenePlayer(1))
 			LOG_FATAL("Scene player not found.")
-		c1.setPos(scene->getScenePlayer()->getPosition());
-		c2.setPos(scene->getScenePlayer()->getPosition());
+		c1.setPos(scene->getScenePlayer(0)->getPosition());
+		c2.setPos(scene->getScenePlayer(1)->getPosition());
 
 		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
 
