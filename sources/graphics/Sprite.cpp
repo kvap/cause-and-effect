@@ -20,6 +20,8 @@ Sprite::Sprite(const std::string filename, int frames) {
 
 void Sprite::draw(double halfwidth, double halfheight, int frame) {
 	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glBegin(GL_QUADS);
 	double u0 = (double)(frame % frames) / frames;
