@@ -38,6 +38,7 @@ void Character::update(const GameTime* gameTime)
 	if (Keyboard::keyIsPressed(GLFW_KEY_D))
 	{
 		look_right = true;
+		this->getPhysics()->setFriction(0.0f);
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
@@ -45,6 +46,7 @@ void Character::update(const GameTime* gameTime)
 	else if (Keyboard::keyIsPressed(GLFW_KEY_A))
 	{
 		look_right = false;
+		this->getPhysics()->setFriction(0.0f);
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-5, velocity.y));
@@ -52,5 +54,6 @@ void Character::update(const GameTime* gameTime)
 	else
 	{
 		frame = 4;
+		this->getPhysics()->setFriction(10.0f);
 	}
 }

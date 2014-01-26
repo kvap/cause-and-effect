@@ -42,6 +42,12 @@ void Physics::attach(b2World* physicsWorld)
     }
 }
 
+void Physics::setFriction(double friction)
+{
+	if (type == Physics::DYNAMIC)
+		this->objectFixtureDef->friction = friction;
+}
+
 Point Physics::getPosition()
 {
     b2Vec2 bodyPosition = this->objectBody->GetPosition();

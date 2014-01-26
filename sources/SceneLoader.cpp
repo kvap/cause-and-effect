@@ -138,7 +138,7 @@ GameScene* loadSceneFromFile(std::string filename) {
 			position.y = -position.y - size.y;
 
 			std::string id = rect->get_attribute_value("id");
-			if (id == "player")
+			if (id == "char")
 			{
 				Character* c = new Character(position, size);
 				gameScene->setScenePlayer(c);
