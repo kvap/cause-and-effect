@@ -46,7 +46,8 @@ int main(int argc, char** argv)
 	glfwSetKeyCallback(window, Keyboard::keyCallback);
 	initTextures();
 
-	Font *f = Fonts::genFont("DroidSans.ttf", 20);
+	Font *f = Fonts::genFont("DroidSans.ttf", 40);
+	Font *sf = Fonts::genFont("DroidSans.ttf", 20);
 
 	GameTime gameTime;
 	gameTime.totalGameTime = 0.0;
@@ -75,24 +76,37 @@ int main(int argc, char** argv)
 
 		physicsTime += gameTime.elapsedGameTime;
 
-		if (!scene->getScenePlayer())
+		if (!scene->getScenePlayer(0) || !scene->getScenePlayer(1))
 			LOG_FATAL("Scene player not found.")
-		c1.setPos(scene->getScenePlayer()->getPosition());
-		c2.setPos(scene->getScenePlayer()->getPosition());
 
-		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
+		c1.setPos(scene->getScenePlayer(0)->getPosition());
+		c2.setPos(scene->getScenePlayer(1)->getPosition());
+
 
 		// update & draw scenes here.
 		c1.apply();
-		glClearColor(0, 0, 0, 0);
+		glClearColor(0.3, 0.3, 0.3, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glColor3f(1, 1, 1);
 		scene->draw(&gameTime);
+		c1.apply_viewport();
+		sf->printString("Cause", screen_width / 2, screen_height / 6, 1, ALIGN_CENTER);
+		if (scene->getScenePlayer(0)->getPosition().x > scene->getScenePlayer(1)->getPosition().x) {
+			f->printString("победа!", screen_width / 2, screen_height / 4, 1, ALIGN_CENTER);
+		}
+
+
 		c2.apply();
-		glClearColor(1, 1, 1, 0);
+		glClearColor(0.7, 0.7, 0.7, 0);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glColor3f(0, 0, 0);
 		scene->draw(&gameTime);
+		c2.apply_viewport();
+		sf->printString("Effect", screen_width / 2, screen_height / 6, 1, ALIGN_CENTER);
+		if (scene->getScenePlayer(0)->getPosition().x > scene->getScenePlayer(1)->getPosition().x) {
+			f->printString("победа!", screen_width / 2, screen_height / 4, 1, ALIGN_CENTER);
+		}
+
 		scene->update(&gameTime);
 		while (physicsTime >= 1.0f/60.0f) {
 			scene->updatePhysics();

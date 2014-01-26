@@ -28,6 +28,8 @@ private:
     b2FixtureDef* objectFixtureDef;
 public:
     void attach(b2World* physicsWorld);
+	void setFriction(double friction);
+	double getFriction();
 
     Point getPosition();
     float32 getAngle();

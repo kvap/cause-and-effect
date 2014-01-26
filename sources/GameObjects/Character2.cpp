@@ -1,21 +1,21 @@
-#include "Character.h"
+#include "Character2.h"
 
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
 #include "../Keyboard.h"
 
-Character::Character(Point position, Point size)
+Character2::Character2(Point position, Point size)
     : GameObject(position, size)
 {
 	sprite = new Sprite("char.png", 7);
 	look_right = true;
 }
 
-Character::~Character()
+Character2::~Character2()
 { }
 
-void Character::draw(const GameTime* gameTime)
+void Character2::draw(const GameTime* gameTime)
 {
 	glPushMatrix();
 	glTranslatef(this->position.x, this->position.y, 0);
@@ -24,14 +24,14 @@ void Character::draw(const GameTime* gameTime)
 	}
 
 	glPushAttrib(GL_CURRENT_BIT);
-	glColor3f(1, 1, 1);
+	glColor3f(0, 0, 0);
 	sprite->draw(size.x * 1.2, size.y * 1.2, frame);
 	glPopAttrib();
 	glPopMatrix();
 }
 
 #define ANIM_SPEED 5
-void Character::update(const GameTime* gameTime)
+void Character2::update(const GameTime* gameTime)
 {
     if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
     {
@@ -44,17 +44,17 @@ void Character::update(const GameTime* gameTime)
 
 	if (Keyboard::keyIsPressed(GLFW_KEY_D))
 	{
-		look_right = true;
-		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
-		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
-	}
-	else if (Keyboard::keyIsPressed(GLFW_KEY_A))
-	{
 		look_right = false;
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-5, velocity.y));
+	}
+	else if (Keyboard::keyIsPressed(GLFW_KEY_A))
+	{
+		look_right = true;
+		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
+		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
+		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
 	}
 	else
 	{
