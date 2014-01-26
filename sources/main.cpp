@@ -7,6 +7,7 @@
 #include "GameTime.h"
 #include "GameScene.h"
 
+#include "SceneLoader.h"
 #include "GameObjects/Box.h"
 #include "GameObjects/Character.h"
 
@@ -58,8 +59,9 @@ int main(int argc, char** argv)
 	gs.layers[0]->add(&b2, Physics::STATIC);
 
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 20);
-	Sprite tux("tux.png", 3);
-	int tuxframe = 0;
+
+	GameScene *scene = loadScene("test.svg");
+	LOG_FATAL("hello");
 
 	double physicsTime = 0.0;
 	while (!glfwWindowShouldClose(window))
@@ -80,10 +82,6 @@ int main(int argc, char** argv)
 		// update & draw scenes here.
 		c.apply();
 		gs.draw(&gameTime);
-		glPushMatrix();
-		glTranslatef(23, 110, 0);
-		tux.draw(20, 20, tuxframe++);
-		glPopMatrix();
 		gs.update(&gameTime);
 		while (physicsTime >= 1.0f/60.0f) {
 			gs.updatePhysics();
