@@ -58,8 +58,9 @@ int main(int argc, char** argv)
 	//gs.layers[0]->add(&b1, Physics::DYNAMIC);
 	//gs.layers[0]->add(&b2, Physics::STATIC);
 
-	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 20);
-
+	Camera c1(Point(0, 0), Point(0, screen_height/2), Point(screen_width, screen_height), 20);
+	Camera c2(Point(0, 0), Point(0, 0), Point(screen_width, screen_height/2), 20);
+	
 	GameScene *scene = loadScene("test.svg");
 	//Character ch(Point(23, 110), Point(1, 1.5));
 	//scene->layers[0]->add(&ch, Physics::DYNAMIC);
@@ -79,12 +80,15 @@ int main(int argc, char** argv)
 
 		if (!scene->getScenePlayer())
 			LOG_FATAL("Scene player not found.")
-		c.setPos(scene->getScenePlayer()->getPosition());
+		c1.setPos(scene->getScenePlayer()->getPosition());
+		c2.setPos(scene->getScenePlayer()->getPosition());
 
 		f->printString("привет, мир!", 10, 20, 1, ALIGN_LEFT);
 
 		// update & draw scenes here.
-		c.apply();
+		c1.apply();
+		scene->draw(&gameTime);
+		c2.apply();
 		scene->draw(&gameTime);
 		scene->update(&gameTime);
 		while (physicsTime >= 1.0f/60.0f) {
