@@ -23,11 +23,11 @@ void Character::draw(const GameTime* gameTime)
 		glRotatef(180, 0, 1, 0);
 	}
 
-	sprite->draw(size.x, size.y, frame);
+	sprite->draw(size.x * 1.2, size.y * 1.2, frame);
 	glPopMatrix();
 }
 
-#define ANIM_SPEED 10
+#define ANIM_SPEED 5
 void Character::update(const GameTime* gameTime)
 {
     if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
