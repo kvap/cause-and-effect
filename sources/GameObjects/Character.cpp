@@ -4,12 +4,15 @@
 #include <GLFW/glfw3.h>
 
 #include "../Keyboard.h"
+#include "../ResourceManager.h"
 
 Character::Character(Point position, Point size)
     : GameObject(position, size)
 {
 	sprite = new Sprite("char.png", 7);
 	look_right = true;
+	
+	this->jumpSound = ResourceManager::getSound("jump");
 }
 
 Character::~Character()
@@ -37,6 +40,7 @@ void Character::update(const GameTime* gameTime)
     {
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 5));
+		this->jumpSound->play();
 	}
 
 	if (Keyboard::keyIsFirstPressed(GLFW_KEY_D) || Keyboard::keyIsFirstPressed(GLFW_KEY_A))

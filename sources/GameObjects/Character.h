@@ -1,6 +1,7 @@
 #ifndef GAME_OBJECTS_CHARACTER_H
 #define GAME_OBJECTS_CHARACTER_H
 
+#include "../Sound.h"
 #include "../Point.h"
 #include "../GameObject.h"
 #include "../graphics/Sprite.hpp"
@@ -11,6 +12,7 @@ public:
     Character(Point position, Point size);
     ~Character();
 private:
+	Sound* jumpSound;
     Sprite *sprite;
     int frame; // 0-3 - running, 4-6 - idle
     bool look_right;

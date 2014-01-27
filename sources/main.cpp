@@ -3,10 +3,11 @@
 #include <GLFW/glfw3.h>
 
 #include "util/Logger.hpp"
+#include "ResourceManager.h"
 #include "Keyboard.h"
 #include "GameTime.h"
 #include "GameScene.h"
-
+ 
 #include "SceneLoader.h"
 #include "GameObjects/Box.h"
 #include "GameObjects/Character.h"
@@ -46,12 +47,10 @@ int main(int argc, char** argv)
 	glfwSetKeyCallback(window, Keyboard::keyCallback);
 	initTextures();
 
+	Sound::initialize();
+
 	Font *f = Fonts::genFont("DroidSans.ttf", 40);
 	Font *sf = Fonts::genFont("DroidSans.ttf", 20);
-
-	GameTime gameTime;
-	gameTime.totalGameTime = 0.0;
-	double startGameTime = glfwGetTime();
 
 	//Character b1(Point(23, 110), Point(1, 1.5));
 	//Box b2(Point(10, 50), Point(100, 10));
@@ -66,6 +65,13 @@ int main(int argc, char** argv)
 	//Character ch(Point(23, 110), Point(1, 1.5));
 	//scene->layers[0]->add(&ch, Physics::DYNAMIC);
 	//LOG_FATAL("hello");
+	Sound* themeSound = ResourceManager::getSound("theme");
+	themeSound->setLooping(true);
+	themeSound->play();
+
+	GameTime gameTime;
+	gameTime.totalGameTime = 0.0;
+	double startGameTime = glfwGetTime();
 
 	double physicsTime = 0.0;
 	while (!glfwWindowShouldClose(window))
@@ -119,6 +125,7 @@ int main(int argc, char** argv)
 		glfwPollEvents();
 	}
 
+	Sound::terminate();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	LOG_CLOSE();
