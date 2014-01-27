@@ -58,7 +58,7 @@ void log_open(const std::string filename) {
 
 	if (!log) {
 #ifdef LOG_LOCATION
-		std::cerr << f << ", line " << l << " : ";
+		std::cerr << f << ":" << l << " : ";
 #endif
 		std::cerr << "Error opening " << filename << " for logging" << std::endl;
 		return;
@@ -66,7 +66,7 @@ void log_open(const std::string filename) {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << "---- " << GetTimeStr() << " : LOGGING STARTED." << std::endl; 
 	log << buf.str();
@@ -84,7 +84,7 @@ void log_close() {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << "---- " << GetTimeStr() << " : LOGGING ENDED." << std::endl;
 	log << buf.str();
@@ -102,7 +102,7 @@ void log_error(const std::string message) {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << ftos(now_s() - start_s) << " [ERROR] " << message << std::endl;
 	log << buf.str();
@@ -118,7 +118,7 @@ void log_fatal(const std::string message) {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << ftos(now_s() - start_s) << " [FATAL] " << message << std::endl;
 	log << buf.str();
@@ -137,7 +137,7 @@ void log_string(const std::string message) {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << ftos(now_s() - start_s) << " : " << message << std::endl;
 	log << buf.str();
@@ -153,7 +153,7 @@ void log_warning(const std::string message) {
 
 	std::ostringstream buf;
 #ifdef LOG_LOCATION
-	buf << f << ", line " << l << " : ";
+	buf << f << ":" << l << " : ";
 #endif
 	buf << ftos(now_s() - start_s) << " [WARNING] " << message << std::endl;
 	log << buf.str();
