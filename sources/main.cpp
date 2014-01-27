@@ -77,7 +77,11 @@ int main(int argc, char** argv)
 	while (!glfwWindowShouldClose(window))
 	{
 		double currentGameTime = glfwGetTime();
+		#define MAX_ELAPSED 0.1
 		gameTime.elapsedGameTime = currentGameTime - startGameTime - gameTime.totalGameTime;
+		if (gameTime.elapsedGameTime > MAX_ELAPSED) {
+			gameTime.elapsedGameTime = MAX_ELAPSED;
+		}
 		gameTime.totalGameTime += gameTime.elapsedGameTime;
 
 		physicsTime += gameTime.elapsedGameTime;

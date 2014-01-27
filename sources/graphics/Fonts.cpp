@@ -71,7 +71,7 @@ Font::Font(const std::string filename, size_t size) {
 	while (gindex != 0) {
 		char buf[100];
 		FT_Get_Glyph_Name(face, gindex, buf, 100);
-		LOG_STRING("Available character: " + stringify<uint32_t>(unicode) + " (" + buf + ")");
+		//LOG_STRING("Available character: " + stringify<uint32_t>(unicode) + " (" + buf + ")");
 		// Look up the character in the font file.
 
 		if (glyphs.find(gindex) != glyphs.end()) {
