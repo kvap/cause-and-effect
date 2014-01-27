@@ -11,14 +11,14 @@ void Sound::initialize()
 {
 	alcDevice = alcOpenDevice(NULL);
 	if (!alcDevice) {
-		printf("No sound device found\n");
+		LOG_ERROR("No sound device found");
 		return;
 	}
 
 	alcContext = alcCreateContext(alcDevice, NULL);
 	alcMakeContextCurrent(alcContext);
 	if (!alcContext) {
-		printf("No sound context\n");
+		LOG_ERROR("No sound context");
 	}
 }
 

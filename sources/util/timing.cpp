@@ -47,6 +47,7 @@ float now_s() {
 	if (clock_gettime(CLOCK_MONOTONIC, &t) == 0) {
 		return t.tv_sec + t.tv_nsec * 1e-9;
 	} else {
+		// do not use Logger here, cause this is used by Logger
 		printf("Error while clock_gettime()\n");
 		exit(0);
 	}
