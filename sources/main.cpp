@@ -6,9 +6,8 @@
 #include "ResourceManager.h"
 #include "Keyboard.h"
 #include "GameTime.h"
-#include "GameScene.h"
+#include "ResourceManager.h"
  
-#include "SceneLoader.h"
 #include "GameObjects/Box.h"
 #include "GameObjects/Character.h"
 
@@ -60,7 +59,7 @@ int main(int argc, char** argv)
 	Camera c1(Point(0, 0), Point(0, screen_height/2), Point(screen_width, screen_height), 40);
 	Camera c2(Point(0, 0), Point(0, 0), Point(screen_width, screen_height/2), 40);
 	
-	GameScene *scene = loadScene("test.svg");
+	GameScene *scene = ResourceManager::getGameScene("test");
 	//Character ch(Point(23, 110), Point(1, 1.5));
 	//scene->layers[0]->add(&ch, Physics::DYNAMIC);
 	//LOG_FATAL("hello");

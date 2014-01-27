@@ -7,6 +7,17 @@
 typedef std::map<std::string, void*> ResourceMap;
 static ResourceMap resourceMap;
 
+#define GETTER_IMPLEMENTATION(CLASS, PREFIX, SUFFIX) \
+	CLASS *ResourceManager::get ## CLASS(std::string name) { \
+		std::string filename = PREFIX + name + SUFFIX; \
+		ResourceMap::iterator it = resourceMap.find(filename); \
+		if (it != resourceMap.end()) { \
+			return (CLASS*)it->second; \
+		} \
+		resourceMap[filename] = new CLASS(filename); \
+		return (CLASS*)resourceMap[filename]; \
+	}
+
 Sound* ResourceManager::getSound(std::string name) {
 	std::string filename = "sounds/" + name + ".wav";
 	ResourceMap::iterator it = resourceMap.find(filename);
@@ -28,3 +39,5 @@ Texture *ResourceManager::getTexture(std::string name) {
 	resourceMap[filename] = new Texture(filename);
 	return (Texture*)resourceMap[filename];
 }
+
+GETTER_IMPLEMENTATION(GameScene, "scenes/", ".svg");
