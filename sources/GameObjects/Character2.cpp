@@ -8,7 +8,7 @@
 Character2::Character2(Point position, Point size)
     : GameObject(position, size)
 {
-	sprite = new Sprite("char.png", 7);
+	sprite = new Sprite("char", 7);
 	look_right = true;
 }
 

@@ -14,12 +14,14 @@
 #include <string>
 #include <GLFW/glfw3.h>
 
+#include "Textures.hpp"
+
 class Sprite {
 	private:
 		int frames;
-		GLuint texture; // sprite texture
+		Texture *texture; // sprite texture
 	public:
-		Sprite(const std::string filename, int frames);
+		Sprite(const std::string textureName, int frames);
 		void draw(double halfwidth, double halfheight, int frame);
 };
 

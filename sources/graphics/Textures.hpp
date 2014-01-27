@@ -19,23 +19,19 @@
 #include <GLFW/glfw3.h>
 #include <string>
 
-// Initializes texture loading module. Call this function after
-// initializing graphics, but before any texture loading
-// functions of this module.
-void initTextures();
-
-// Loads texture from file named "filename" and returns OpenGL
-// handler for it. If you try to load from the same file again,
-// it will just return existing handler, without creating yet
-// another texture.
-unsigned int loadTexture(std::string filename, int *wid, int *hei);
-unsigned int loadTexture(std::string filename);
-
-// Unloads OpenGL texture, that was loaded from file "filename" 
-void unloadTexture(std::string filename);
-
-// Unloads all textures, loaded by LoadTex.
-void wipeTextures();
+class Texture {
+	private:
+		unsigned int handle; // OpenGL handle
+		int width, height;
+	public:
+		int getWidth();
+		int getHeight();
+		// FIXME: get rid of "getHandle"?
+		unsigned int getHandle(); // returns the OpenGL handle
+		void apply();
+		Texture(std::string filename);
+		~Texture();
+};
 
 #endif
 

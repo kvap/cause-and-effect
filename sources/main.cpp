@@ -45,7 +45,6 @@ int main(int argc, char** argv)
 
 	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
 	glfwSetKeyCallback(window, Keyboard::keyCallback);
-	initTextures();
 
 	Sound::initialize();
 

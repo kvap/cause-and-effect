@@ -9,20 +9,19 @@
  */
 
 #include "Sprite.hpp"
-#include "Textures.hpp"
+#include "../ResourceManager.h"
 
 #include <GLFW/glfw3.h>
 
-Sprite::Sprite(const std::string filename, int frames) {
-	texture = loadTexture(filename);
+Sprite::Sprite(const std::string textureName, int frames) {
+	texture = ResourceManager::getTexture(textureName);
 	this->frames = frames;
 }
 
 void Sprite::draw(double halfwidth, double halfheight, int frame) {
-	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	texture->apply();
 	glBegin(GL_QUADS);
 	double u0 = (double)(frame % frames) / frames;
 	double u1 = (double)((frame + 1) % frames) / frames;
