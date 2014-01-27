@@ -7,6 +7,7 @@
 typedef std::map<std::string, void*> ResourceMap;
 static ResourceMap resourceMap;
 
+// some boilerplate code
 #define GETTER_IMPLEMENTATION(CLASS, PREFIX, SUFFIX) \
 	CLASS *ResourceManager::get ## CLASS(std::string name) { \
 		std::string filename = PREFIX + name + SUFFIX; \
@@ -18,6 +19,7 @@ static ResourceMap resourceMap;
 		return (CLASS*)resourceMap[filename]; \
 	}
 
+//FIXME: use GETTER_IMPLEMENTATION for this too, when there is "new Sound()" style instead of "loadSound"
 Sound* ResourceManager::getSound(std::string name) {
 	std::string filename = "sounds/" + name + ".wav";
 	ResourceMap::iterator it = resourceMap.find(filename);
@@ -29,15 +31,5 @@ Sound* ResourceManager::getSound(std::string name) {
 	return (Sound*)resourceMap[filename];
 }
 
-Texture *ResourceManager::getTexture(std::string name) {
-	std::string filename = "textures/" + name + ".png";
-	ResourceMap::iterator it = resourceMap.find(filename);
-	if (it != resourceMap.end()) {
-		return (Texture*)it->second;
-	}
-
-	resourceMap[filename] = new Texture(filename);
-	return (Texture*)resourceMap[filename];
-}
-
+GETTER_IMPLEMENTATION(Texture, "textures/", ".png");
 GETTER_IMPLEMENTATION(GameScene, "scenes/", ".svg");
