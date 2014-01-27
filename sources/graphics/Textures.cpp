@@ -16,8 +16,8 @@
 #include <png.h>
 #include <malloc.h>
 
-#include "../util/convert.hpp"
-#include "../util/Logger.hpp"
+#include "util/convert.hpp"
+#include "util/Logger.hpp"
 #include "Textures.hpp"
 
 

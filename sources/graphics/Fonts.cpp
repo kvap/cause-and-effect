@@ -11,11 +11,11 @@
 #include <string>
 #include <sstream>
 
-#include "../util/convert.hpp"
-#include "../util/Logger.hpp"
+#include "util/convert.hpp"
+#include "util/Logger.hpp"
+#include "util/UTF8.hpp"
 #include "Fonts.hpp"
 #include "Textures.hpp"
-#include "../util/UTF8.hpp"
 
 Font *Fonts::genFont(const std::string filename, size_t size) {
 	Font *r = new Font(filename, size);

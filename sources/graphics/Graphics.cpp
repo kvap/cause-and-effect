@@ -10,8 +10,8 @@
 
 #include "Graphics.hpp"
 
-#include "../util/Logger.hpp"
-#include "../util/convert.hpp"
+#include "util/Logger.hpp"
+#include "util/convert.hpp"
 
 GLFWwindow *setup_window(int *resx, int *resy, bool vsync, bool fullscreen) {
 	const GLFWvidmode *desktop = glfwGetVideoMode(glfwGetPrimaryMonitor());

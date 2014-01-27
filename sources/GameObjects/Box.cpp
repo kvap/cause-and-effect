@@ -3,8 +3,8 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
-#include "../Keyboard.h"
-#include "../ResourceManager.h"
+#include "Keyboard.h"
+#include "ResourceManager.h"
 
 Box::Box(Point position, Point size)
     : GameObject(position, size)

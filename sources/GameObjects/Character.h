@@ -1,10 +1,10 @@
 #ifndef GAME_OBJECTS_CHARACTER_H
 #define GAME_OBJECTS_CHARACTER_H
 
-#include "../Sound.h"
-#include "../Point.h"
-#include "../GameObject.h"
-#include "../graphics/Sprite.hpp"
+#include "Sound.h"
+#include "Point.h"
+#include "GameObject.h"
+#include "graphics/Sprite.hpp"
 
 class Character : public GameObject
 {

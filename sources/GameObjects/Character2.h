@@ -1,9 +1,9 @@
 #ifndef GAME_OBJECTS_CHARACTER2_H
 #define GAME_OBJECTS_CHARACTER2_H
 
-#include "../Point.h"
-#include "../GameObject.h"
-#include "../graphics/Sprite.hpp"
+#include "Point.h"
+#include "GameObject.h"
+#include "graphics/Sprite.hpp"
 
 class Character2 : public GameObject
 {

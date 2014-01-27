@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
-#include "../Keyboard.h"
+#include "Keyboard.h"
 
 Character2::Character2(Point position, Point size)
     : GameObject(position, size)

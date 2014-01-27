@@ -1,8 +1,8 @@
 #ifndef GAME_OBJECTS_BOX_H
 #define GAME_OBJECTS_BOX_H
 
-#include "../Point.h"
-#include "../GameObject.h"
+#include "Point.h"
+#include "GameObject.h"
 
 class Box : public GameObject
 {

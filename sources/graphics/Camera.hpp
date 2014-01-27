@@ -11,7 +11,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "../Point.h"
+#include "Point.h"
 
 class Camera {
 	private:

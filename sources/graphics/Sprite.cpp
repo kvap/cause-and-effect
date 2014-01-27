@@ -9,7 +9,7 @@
  */
 
 #include "Sprite.hpp"
-#include "../ResourceManager.h"
+#include "ResourceManager.h"
 
 #include <GLFW/glfw3.h>
 

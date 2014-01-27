@@ -13,7 +13,7 @@
 
 #include "Camera.hpp"
 
-#include "../Point.h"
+#include "Point.h"
 
 Camera::Camera(Point pos, Point lower_left, Point upper_right, double zoom) {
 	this->pos = pos;
