@@ -13,6 +13,7 @@ Character::Character(Point position, Point size)
 	look_right = true;
 	
 	this->jumpSound = ResourceManager::getSound("jump");
+	this->stepSound = ResourceManager::getSound("step_dirt");
 }
 
 Character::~Character()
@@ -50,6 +51,8 @@ void Character::update(const GameTime* gameTime)
 	{
 		look_right = true;
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
+		if (frame % 2 == 0)
+			this->stepSound->play();
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
 	}
@@ -57,6 +60,8 @@ void Character::update(const GameTime* gameTime)
 	{
 		look_right = false;
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
+		if (frame % 2 == 0)
+			this->stepSound->play();
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-5, velocity.y));
 	}

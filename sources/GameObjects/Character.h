@@ -13,6 +13,7 @@ public:
     ~Character();
 private:
 	Sound* jumpSound;
+	Sound* stepSound;
     Sprite *sprite;
     int frame; // 0-3 - running, 4-6 - idle
     bool look_right;
