@@ -29,7 +29,7 @@ bool Keyboard::keyIsPressed(int key)
     return keys[key] == GLFW_PRESS || keys[key] == GLFW_REPEAT;
 }
 
-void Keyboard:: update()
+void Keyboard:: updateEvents()
 {
     for (int i = 0; i <= GLFW_KEY_LAST; ++i)
         if (keys[i] == GLFW_PRESS)

@@ -4,6 +4,7 @@
 
 #include "util/Logger.hpp"
 #include "ResourceManager.h"
+#include "Input.hpp"
 #include "Keyboard.h"
 #include "GameTime.h"
 #include "ResourceManager.h"
@@ -43,9 +44,11 @@ int main(int argc, char** argv)
 	  );
 
 	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
+	Input::initialize(window);
+	Input::enable(Input::KEYBOARD);
 	glfwSetKeyCallback(window, Keyboard::keyCallback);
-
 	Sound::initialize();
+	//glfwSetKeyCallback(window, Keyboard::keyCallback);
 
 	Font *f = Fonts::genFont("DroidSans.ttf", 40);
 	Font *sf = Fonts::genFont("DroidSans.ttf", 20);
@@ -120,14 +123,14 @@ int main(int argc, char** argv)
 			scene->updatePhysics();
 			physicsTime -= 1.0f/60.0f;
 		}
-		Keyboard::update();
 
-
+		Keyboard::updateEvents();
 		glfwSwapBuffers(window);
-		glfwPollEvents();
+		Input::updateEvents();
 	}
 
 	Sound::terminate();
+	Input::terminate();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 	LOG_CLOSE();

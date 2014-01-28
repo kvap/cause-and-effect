@@ -15,7 +15,7 @@ public:
     static bool keyIsFirstPressed(int key);
     static bool keyIsPressed(int key);
 
-    static void update();
+    static void updateEvents();
 };
 
 #endif // KEYBOARD_H
