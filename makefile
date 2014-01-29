@@ -1,7 +1,7 @@
 CC = g++
-LIBS = freetype2 glew libxml++-2.6 openal #freealut
-CFLAGS = -g -c `pkg-config --cflags $(LIBS)` -Isources -DLOG_LOCATION
-LDFLAGS = -Wall -lGL -lpng -lglfw -lBox2D -lxml2 `pkg-config --libs $(LIBS)`
+LIBS = freetype2 glew libxml++-2.6 openal gl libpng glfw3 libxml-2.0
+CFLAGS = -g -c $(shell pkg-config --cflags $(LIBS)) -Isources -DLOG_LOCATION
+LDFLAGS = -Wall -lBox2D $(shell pkg-config --libs $(LIBS))
 
 BUILD_DIR = bin
 SOURCE_DIR = sources
