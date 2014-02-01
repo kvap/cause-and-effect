@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
-#include "Keyboard.h"
+#include "../input/Keyboard.hpp"
 #include "ResourceManager.h"
 
 Character::Character(Point position, Point size)
@@ -37,14 +37,14 @@ void Character::draw(const GameTime* gameTime)
 #define ANIM_SPEED 5
 void Character::update(const GameTime* gameTime)
 {
-    if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
+    if (Keyboard::keyIsJustPressed(GLFW_KEY_SPACE))
     {
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 5));
 		this->jumpSound->play();
 	}
 
-	if (Keyboard::keyIsFirstPressed(GLFW_KEY_D) || Keyboard::keyIsFirstPressed(GLFW_KEY_A))
+	if (Keyboard::keyIsJustPressed(GLFW_KEY_D) || Keyboard::keyIsJustPressed(GLFW_KEY_A))
 		this->getPhysics()->setFriction(0.0f);
 
 	if (Keyboard::keyIsPressed(GLFW_KEY_D))

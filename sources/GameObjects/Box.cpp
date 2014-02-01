@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
-#include "Keyboard.h"
+#include "../input/Keyboard.hpp"
 #include "ResourceManager.h"
 
 Box::Box(Point position, Point size)

@@ -2,6 +2,8 @@
 #define INPUT_HPP
 class Input;
 
+#define JUMP 1
+
 #include <string>
 #include <GLFW/glfw3.h>
 #include "input/Shortcut.hpp"
@@ -16,10 +18,10 @@ public:
 	{
 		KEYBOARD = 0,
 		MOUSE = 1,
-		GAMEPAD = 2
+		JOYSTICK = 2
 	};
 
-	static void initialize(const GLFWwindow* window);
+	static void initialize(GLFWwindow* window);
 
 	static void loadShortcuts(std::string shortcutFile);
 	static void saveShortcuts(std::string shortcutFile);
@@ -32,8 +34,8 @@ public:
 
 	static bool isPressed(int actionId);
 	static bool isReleased(int actionId);
-	static bool isFirstPressed(int actionId);
-	static bool isFirstReleased(int actionId);
+	static bool isJustPressed(int actionId);
+	static bool isJustReleased(int actionId);
 
 	static void updateEvents();
 

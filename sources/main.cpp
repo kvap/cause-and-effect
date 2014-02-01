@@ -6,7 +6,7 @@
 #include "util/Logger.hpp"
 #include "ResourceManager.h"
 #include "Input.hpp"
-#include "Keyboard.h"
+#include "input/Keyboard.hpp"
 #include "GameTime.h"
 #include "ResourceManager.h"
  
@@ -39,13 +39,20 @@ enum State {
 State entrance(GLFWwindow *window, Font *font) {
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 1);
 	Texture *logo = ResourceManager::getTexture("logo2");
+	int keyCount = 0;
 	while (true) {
-		if (Keyboard::keyIsFirstPressed(GLFW_KEY_ENTER)) {
+		Keyboard::getJustPressedKeys(keyCount);
+		if (Keyboard::keyIsJustPressed(GLFW_KEY_ENTER)) {
 			return STATE_LIST;
-		} else if (Keyboard::keyIsFirstPressed(GLFW_KEY_ESCAPE)) {
+		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
 			return STATE_EXIT;
 		} else {
 			// FIXME: how to catch any other key?
+			const Shortcut* jump = Input::getNewShortcut();
+			if (jump) {
+				Input::bindShortcut(JUMP, jump);
+				LOG_STRING("Binded new JUMP shortcut.");
+			}
 		}
 
 		c.apply_viewport();
@@ -108,17 +115,20 @@ State list(GLFWwindow *window, Font *font) {
 
 	int selected = 0;
 	while (true) {
-		if (Keyboard::keyIsFirstPressed(GLFW_KEY_ENTER)) {
+		int keyCount = 0;
+		Keyboard::getJustPressedKeys(keyCount);
+		if (Keyboard::keyIsJustPressed(GLFW_KEY_ENTER)) {
 			selectedSceneName = scenes[selected];
 			return STATE_SCENE;
-		} else if (Keyboard::keyIsFirstPressed(GLFW_KEY_ESCAPE)) {
+		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
 			return STATE_ENTRANCE;
-		} else if (Keyboard::keyIsFirstPressed(GLFW_KEY_UP)) {
+		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_UP)) {
 			selected = (selected - 1 + scenes.size()) % scenes.size();
-		} else if (Keyboard::keyIsFirstPressed(GLFW_KEY_DOWN)) {
+		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_DOWN)) {
 			selected = (selected + 1) % scenes.size();
-		} else {
+		} else if (keyCount) {
 			// FIXME: how to catch any other key?
+			LOG_STRING("Any other key is pressed.");
 		}
 
 		c.apply_viewport();
@@ -178,7 +188,7 @@ bool playScene(GLFWwindow *window, Font *font, std::string sceneName) {
 	double physicsTime = 0.0;
 	while (true)
 	{
-		if (Keyboard::keyIsFirstPressed(GLFW_KEY_ESCAPE)) {
+		if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
 			return false;
 		}
 
