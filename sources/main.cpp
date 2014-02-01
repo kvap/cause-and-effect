@@ -87,8 +87,8 @@ void list_dir(std::vector<std::string> *v) {
 		/* print all the files and directories within directory */
 		while ((ent = readdir(dir)) != NULL) {
 			std::string name(ent->d_name);
-			if ((name != ".") && (name != "..")) {
-				v->push_back(name);
+			if ((name != ".") && (name != "..") && (name.substr(name.size() - 4, name.size()) == ".svg")) {
+				v->push_back(name.substr(0, name.size() - 4));
 			}
 		}
 		closedir (dir);
@@ -99,6 +99,8 @@ void list_dir(std::vector<std::string> *v) {
 	std::sort(v->begin(), v->end());
 }
 
+std::string selectedSceneName;
+
 State list(GLFWwindow *window, Font *font) {
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 1);
 	std::vector<std::string> scenes;
@@ -107,6 +109,7 @@ State list(GLFWwindow *window, Font *font) {
 	int selected = 0;
 	while (true) {
 		if (Keyboard::keyIsFirstPressed(GLFW_KEY_ENTER)) {
+			selectedSceneName = scenes[selected];
 			return STATE_SCENE;
 		} else if (Keyboard::keyIsFirstPressed(GLFW_KEY_ESCAPE)) {
 			return STATE_ENTRANCE;
@@ -195,11 +198,12 @@ bool playScene(GLFWwindow *window, Font *font, std::string sceneName) {
 		c1.setPos(scene->getScenePlayer(0)->getPosition());
 		c2.setPos(scene->getScenePlayer(1)->getPosition());
 
-		if (scene->getScenePlayer(0)->getPosition().x > scene->getScenePlayer(1)->getPosition().x) {
-			// FIXME: implement graceful level ending
-			//ResourceManager::removeScene(sceneName);
-			return true;
-		}
+		//if (scene->getScenePlayer(0)->getPosition().x > scene->getScenePlayer(1)->getPosition().x) {
+		//	// FIXME: implement graceful level ending
+		//	//ResourceManager::removeScene(sceneName);
+		//	LOG_STRING("scene ended");
+		//	return true;
+		//}
 
 		// update & draw scenes here.
 		c1.apply();
@@ -275,7 +279,7 @@ int main(int argc, char** argv)
 				state = list(window, font);
 				break;
 			case STATE_SCENE:
-				if (playScene(window, font, "test")) {
+				if (playScene(window, font, selectedSceneName)) {
 					state = STATE_SCENE;
 				} else {
 					state = STATE_LIST;
