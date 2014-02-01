@@ -26,7 +26,7 @@ void Box::draw(const GameTime* gameTime)
 	groundtex->apply();
 
 
-	#define GROUND_SCALE 0.2
+	#define GROUND_SCALE 0.4
 	double u0 = GROUND_SCALE * (position.x - size.x);
 	double v0 = GROUND_SCALE * (position.y - size.y);
 	double u1 = GROUND_SCALE * (position.x + size.x);
