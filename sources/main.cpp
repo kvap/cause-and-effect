@@ -39,12 +39,15 @@ enum State {
 State entrance(GLFWwindow *window, Font *font) {
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 1);
 	Texture *logo = ResourceManager::getTexture("logo2");
+	Input::loadShortcuts("controls.cfg");
 	int keyCount = 0;
 	while (true) {
 		Keyboard::getJustPressedKeys(keyCount);
 		if (Keyboard::keyIsJustPressed(GLFW_KEY_ENTER)) {
+			Input::saveShortcuts("controls.cfg");
 			return STATE_LIST;
 		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
+			Input::saveShortcuts("controls.cfg");
 			return STATE_EXIT;
 		} else {
 			// FIXME: how to catch any other key?
