@@ -6,7 +6,6 @@
 #include "util/Logger.hpp"
 #include "ResourceManager.h"
 #include "Input.hpp"
-#include "input/Keyboard.hpp"
 #include "GameTime.h"
 #include "ResourceManager.h"
  
@@ -36,25 +35,73 @@ enum State {
 	STATE_EXIT
 };
 
+State config(GLFWwindow *window, Font *font) {
+	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 1);
+	Texture *logo = ResourceManager::getTexture("logo2");
+
+	int actions[7] = {
+		ACTION_CANCEL, ACTION_OK,
+		ACTION_LEFT, ACTION_RIGHT, ACTION_UP, ACTION_DOWN,
+		ACTION_JUMP
+	};
+	std::string names[7] = {"CANCEL", "OK", "LEFT", "RIGHT", "UP", "DOWN", "JUMP"};
+	int curaction = 0;
+
+	while (curaction < 7) {
+		const Shortcut *shortcut = Input::getNewShortcut();
+		if (shortcut) {
+			Input::bindShortcut(actions[curaction], shortcut);
+			LOG_STRING("Binded new " + names[curaction] + " shortcut.");
+			curaction++;
+		}
+
+		c.apply_viewport();
+		glTranslated(screen_width / 2, screen_height / 2, 0);
+
+		glClearColor(0.3, 0.3, 0.3, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		logo->apply();
+		glColor3f(1, 1, 1);
+		glBegin(GL_QUADS);
+			glTexCoord2d(0, 0); glVertex2d(-logo->getWidth() - 5, -logo->getHeight() / 2);
+			glTexCoord2d(0, 1); glVertex2d(-logo->getWidth() - 5,  logo->getHeight() / 2);
+			glTexCoord2d(1, 1); glVertex2d(                  - 5,  logo->getHeight() / 2);
+			glTexCoord2d(1, 0); glVertex2d(                  - 5, -logo->getHeight() / 2);
+		glEnd();
+
+		double x = 0;
+		double y = 1.5 * font->getLineHeight();
+		for (int i = 0; i < 7; i++) {
+			if (i == curaction) {
+				glColor3f(0.7, 0.7, 0.7);
+			} else {
+				glColor3f(0.5, 0.5, 1.0);
+			}
+			font->printString("[" + names[i] + "]", x, y, 1, ALIGN_LEFT);
+			y -= 1.5 * font->getLineHeight();
+		}
+
+		glfwSwapBuffers(window);
+		Input::updateEvents();
+	}
+	Input::saveShortcuts("controls.cfg");
+	return STATE_ENTRANCE;
+}
+
 State entrance(GLFWwindow *window, Font *font) {
 	Camera c(Point(0, 0), Point(0, 0), Point(screen_width, screen_height), 1);
 	Texture *logo = ResourceManager::getTexture("logo2");
-	Input::loadShortcuts("controls.cfg");
-	int keyCount = 0;
 	while (true) {
-		Keyboard::getJustPressedKeys(keyCount);
-		if (Keyboard::keyIsJustPressed(GLFW_KEY_ENTER)) {
-			Input::saveShortcuts("controls.cfg");
+		if (Input::isJustPressed(ACTION_OK)) {
 			return STATE_LIST;
-		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
-			Input::saveShortcuts("controls.cfg");
+		} else if (Input::isJustPressed(ACTION_CANCEL)) {
 			return STATE_EXIT;
 		} else {
-			// FIXME: how to catch any other key?
-			const Shortcut* jump = Input::getNewShortcut();
-			if (jump) {
-				Input::bindShortcut(JUMP, jump);
-				LOG_STRING("Binded new JUMP shortcut.");
+			const Shortcut *shortcut = Input::getNewShortcut();
+			if (shortcut) {
+				delete shortcut;
+				return STATE_CONFIG;
 			}
 		}
 
@@ -82,7 +129,6 @@ State entrance(GLFWwindow *window, Font *font) {
 		y -= 1.5 * font->getLineHeight();
 		font->printString("Press anything else to reconfigure", x, y, 1, ALIGN_LEFT);
 
-		Keyboard::updateEvents();
 		glfwSwapBuffers(window);
 		Input::updateEvents();
 	}
@@ -118,20 +164,15 @@ State list(GLFWwindow *window, Font *font) {
 
 	int selected = 0;
 	while (true) {
-		int keyCount = 0;
-		Keyboard::getJustPressedKeys(keyCount);
-		if (Keyboard::keyIsJustPressed(GLFW_KEY_ENTER)) {
+		if (Input::isJustPressed(ACTION_OK)) {
 			selectedSceneName = scenes[selected];
 			return STATE_SCENE;
-		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
+		} else if (Input::isJustPressed(ACTION_CANCEL)) {
 			return STATE_ENTRANCE;
-		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_UP)) {
+		} else if (Input::isJustPressed(ACTION_UP)) {
 			selected = (selected - 1 + scenes.size()) % scenes.size();
-		} else if (Keyboard::keyIsJustPressed(GLFW_KEY_DOWN)) {
+		} else if (Input::isJustPressed(ACTION_DOWN)) {
 			selected = (selected + 1) % scenes.size();
-		} else if (keyCount) {
-			// FIXME: how to catch any other key?
-			LOG_STRING("Any other key is pressed.");
 		}
 
 		c.apply_viewport();
@@ -163,15 +204,6 @@ State list(GLFWwindow *window, Font *font) {
 			y -= 1.5 * font->getLineHeight();
 		}
 
-//		glColor3f(0.7, 0.7, 0.7);
-//		glBegin(GL_QUADS);
-//			glVertex2d(           0,                   0);
-//			glVertex2d(screen_width,                   0);
-//			glVertex2d(screen_width, screen_height * 0.7);
-//			glVertex2d(           0, screen_height * 0.3);
-//		glEnd();
-
-		Keyboard::updateEvents();
 		glfwSwapBuffers(window);
 		Input::updateEvents();
 	}
@@ -191,7 +223,7 @@ bool playScene(GLFWwindow *window, Font *font, std::string sceneName) {
 	double physicsTime = 0.0;
 	while (true)
 	{
-		if (Keyboard::keyIsJustPressed(GLFW_KEY_ESCAPE)) {
+		if (Input::isJustPressed(ACTION_CANCEL)) {
 			return false;
 		}
 
@@ -248,7 +280,6 @@ bool playScene(GLFWwindow *window, Font *font, std::string sceneName) {
 			physicsTime -= 1.0f/60.0f;
 		}
 
-		Keyboard::updateEvents();
 		glfwSwapBuffers(window);
 		Input::updateEvents();
 	}
@@ -274,7 +305,7 @@ int main(int argc, char** argv)
 	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
 	Input::initialize(window);
 	Input::enable(Input::KEYBOARD);
-	glfwSetKeyCallback(window, Keyboard::keyCallback);
+	Input::loadShortcuts("controls.cfg");
 
 	Sound::initialize();
 	Sound* themeSound = ResourceManager::getSound("theme");
@@ -299,13 +330,12 @@ int main(int argc, char** argv)
 				}
 				break;
 			case STATE_CONFIG:
-				state = STATE_ENTRANCE;
+				state = config(window, font);
 				break;
 			case STATE_EXIT:
 				break;
 		}
 		LOG_STRING("state -> " + stringify<int>(state));
-		Keyboard::updateEvents();
 		Input::updateEvents();
 	}
 //	playScene(window, font, "test");

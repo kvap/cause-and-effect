@@ -2,7 +2,13 @@
 #define INPUT_HPP
 class Input;
 
-#define JUMP 1
+#define ACTION_CANCEL 0
+#define ACTION_OK     1
+#define ACTION_LEFT   2
+#define ACTION_RIGHT  3
+#define ACTION_UP     4
+#define ACTION_DOWN   5
+#define ACTION_JUMP   6
 
 #include <string>
 #include <GLFW/glfw3.h>

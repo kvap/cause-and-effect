@@ -3,8 +3,7 @@
 #include <stdio.h>
 #include <GLFW/glfw3.h>
 
-#include "../input/Keyboard.hpp"
-#include "../Input.hpp"
+#include "Input.hpp"
 
 Character2::Character2(Point position, Point size)
     : GameObject(position, size)
@@ -32,40 +31,30 @@ void Character2::draw(const GameTime* gameTime)
 }
 
 #define ANIM_SPEED 5
-void Character2::update(const GameTime* gameTime)
-{
-	if (Input::isJustPressed(JUMP))
-	{
+void Character2::update(const GameTime* gameTime) {
+	if (Input::isJustPressed(ACTION_JUMP)) {
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 5));
-	}/*
-    if (Keyboard::keyIsFirstPressed(GLFW_KEY_SPACE))
-    {
-		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
-		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(velocity.x, 5));
-	}*/
+	}
 
-	if (Keyboard::keyIsJustPressed(GLFW_KEY_D) || Keyboard::keyIsJustPressed(GLFW_KEY_A))
+	if (Input::isJustPressed(ACTION_LEFT) || Input::isJustPressed(ACTION_RIGHT)) {
 		this->getPhysics()->setFriction(0.0f);
+	}
 
-	if (Keyboard::keyIsPressed(GLFW_KEY_D))
-	{
+	if (Input::isPressed(ACTION_RIGHT)) {
 		look_right = false;
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(-5, velocity.y));
-	}
-	else if (Keyboard::keyIsPressed(GLFW_KEY_A))
-	{
+	} else if (Input::isPressed(ACTION_LEFT)) {
 		look_right = true;
 		frame = (int)(gameTime->totalGameTime * ANIM_SPEED) % 4;
 		b2Vec2 velocity = this->getPhysics()->getBody()->GetLinearVelocity();
 		this->getPhysics()->getBody()->SetLinearVelocity(b2Vec2(5, velocity.y));
-	}
-	else
-	{
+	} else {
 		frame = 4;
-		if (this->getPhysics()->getFriction() < 20.0f)
+		if (this->getPhysics()->getFriction() < 20.0f) {
 			this->getPhysics()->setFriction(20.0f);
+		}
 	}
 }
