@@ -41,10 +41,14 @@ State config(GLFWwindow *window, Font *font) {
 
 	int actions[7] = {
 		ACTION_OK,
-		ACTION_LEFT, ACTION_RIGHT, ACTION_UP, ACTION_DOWN,
-		ACTION_JUMP, ACTION_CANCEL
+		ACTION_LEFT, ACTION_RIGHT, ACTION_UP, ACTION_DOWN, ACTION_JUMP,
+		ACTION_CANCEL
 	};
-	std::string names[7] = {"OK", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "CANCEL"};
+	std::string names[7] = {
+		"OK",
+		"LEFT", "RIGHT", "UP", "DOWN", "JUMP",
+		"CANCEL"
+	};
 	int curaction = 0;
 
 	while (curaction < 7) {
@@ -78,7 +82,7 @@ State config(GLFWwindow *window, Font *font) {
 			} else {
 				glColor3f(0.7, 0.7, 0.7);
 			}
-			font->printString("[" + names[i] + "]", x, y, 1, ALIGN_LEFT);
+			font->printString("[ " + names[i] + " ]", x, y, 1, ALIGN_LEFT);
 			y -= 1.5 * font->getLineHeight();
 		}
 
@@ -123,9 +127,9 @@ State entrance(GLFWwindow *window, Font *font) {
 		glColor3f(0.7, 0.7, 0.7);
 		double x = 0;
 		double y = 1.5 * font->getLineHeight();
-		font->printString("Press [OK] to continue", x, y, 1, ALIGN_LEFT);
+		font->printString("Press [ OK ] to continue", x, y, 1, ALIGN_LEFT);
 		y -= 1.5 * font->getLineHeight();
-		font->printString("Press [CANCEL] to exit", x, y, 1, ALIGN_LEFT);
+		font->printString("Press [ CANCEL ] to exit", x, y, 1, ALIGN_LEFT);
 		y -= 1.5 * font->getLineHeight();
 		font->printString("Press anything else to reconfigure", x, y, 1, ALIGN_LEFT);
 
