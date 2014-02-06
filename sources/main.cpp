@@ -40,11 +40,11 @@ State config(GLFWwindow *window, Font *font) {
 	Texture *logo = ResourceManager::getTexture("logo2");
 
 	int actions[7] = {
-		ACTION_CANCEL, ACTION_OK,
+		ACTION_OK,
 		ACTION_LEFT, ACTION_RIGHT, ACTION_UP, ACTION_DOWN,
-		ACTION_JUMP
+		ACTION_JUMP, ACTION_CANCEL
 	};
-	std::string names[7] = {"CANCEL", "OK", "LEFT", "RIGHT", "UP", "DOWN", "JUMP"};
+	std::string names[7] = {"OK", "LEFT", "RIGHT", "UP", "DOWN", "JUMP", "CANCEL"};
 	int curaction = 0;
 
 	while (curaction < 7) {
@@ -74,9 +74,9 @@ State config(GLFWwindow *window, Font *font) {
 		double y = 1.5 * font->getLineHeight();
 		for (int i = 0; i < 7; i++) {
 			if (i == curaction) {
-				glColor3f(0.7, 0.7, 0.7);
-			} else {
 				glColor3f(0.5, 0.5, 1.0);
+			} else {
+				glColor3f(0.7, 0.7, 0.7);
 			}
 			font->printString("[" + names[i] + "]", x, y, 1, ALIGN_LEFT);
 			y -= 1.5 * font->getLineHeight();
