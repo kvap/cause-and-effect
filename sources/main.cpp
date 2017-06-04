@@ -306,7 +306,9 @@ int main(int argc, char** argv)
 		+ stringify<int>(glfw_version[2]) + " initialized"
 	  );
 
-	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, true);
+	screen_width = 640;
+	screen_height = 480;
+	GLFWwindow *window = setup_window(&screen_width, &screen_height, true, false);
 	Input::initialize(window);
 	Input::enable(Input::KEYBOARD);
 	Input::loadShortcuts("controls.cfg");

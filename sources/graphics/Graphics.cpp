@@ -15,8 +15,10 @@
 
 GLFWwindow *setup_window(int *resx, int *resy, bool vsync, bool fullscreen) {
 	const GLFWvidmode *desktop = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	*resx = desktop->width;
-	*resy = desktop->height;
+	if (fullscreen) {
+		*resx = desktop->width;
+		*resy = desktop->height;
+	}
 
 	glfwWindowHint(GLFW_RED_BITS, desktop->redBits);
 	glfwWindowHint(GLFW_GREEN_BITS, desktop->greenBits);
