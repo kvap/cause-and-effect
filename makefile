@@ -1,7 +1,16 @@
 CC = g++
-LIBS = freetype2 glew libxml++-2.6 openal gl libpng glfw3 libxml-2.0
-CFLAGS = -g -c $(shell pkg-config --cflags $(LIBS)) -Isources -DLOG_LOCATION
-LDFLAGS = -Wall -lBox2D $(shell pkg-config --libs $(LIBS))
+THEOS := $(shell uname -s)
+ifeq ($(THEOS),Darwin)
+    LIBS = freetype2 glew libxml++-2.6 libpng glfw3 libxml-2.0
+    CFLAGS = -g -c $(shell pkg-config --cflags $(LIBS)) -Isources -I/usr/local/include -DLOG_LOCATION -framework OpenAL -framework OpenGL
+    LDFLAGS = -Wall -lBox2D $(shell pkg-config --libs $(LIBS)) -L/usr/local/lib -framework OpenAL -framework OpenGL
+else
+    LIBS = freetype2 glew libxml++-2.6 openal gl libpng glfw3 libxml-2.0
+    CFLAGS = -g -c $(shell pkg-config --cflags $(LIBS)) -Isources -DLOG_LOCATION
+    LDFLAGS = -Wall -lBox2D $(shell pkg-config --libs $(LIBS))
+endif
+
+CFLAGS += -std=c++14
 
 BUILD_DIR = bin
 SOURCE_DIR = sources

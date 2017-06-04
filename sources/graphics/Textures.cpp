@@ -14,7 +14,7 @@
 #include <string>
 #include <cstring>
 #include <png.h>
-#include <malloc.h>
+#include <cstdlib>
 
 #include "util/convert.hpp"
 #include "util/Logger.hpp"

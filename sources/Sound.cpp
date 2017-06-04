@@ -1,8 +1,6 @@
 #include "Sound.h"
 
 #include <stdio.h>
-#include <AL/al.h>
-#include <AL/alc.h>
 
 static ALCdevice* alcDevice;
 static ALCcontext* alcContext;
